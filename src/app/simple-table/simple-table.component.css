@@ -1,0 +1,43 @@
+table,
+th,
+td {
+    border: 2px solid black;
+    text-align: center;
+    border-collapse: collapse;
+}
+
+table {
+    width: 90%;
+
+}
+
+form {
+    padding-top: 3em;
+    margin: auto;
+    width: 80%;
+}
+
+.center {
+    text-align: center;
+}
+
+td {
+    height: 1.5em;
+    background-color: rgb(212, 196, 196) !important;
+}
+
+tr:nth-child(-n + 3) {
+    background-color: white !important;
+}
+
+
+
+.subheading {
+    font-weight: 700;
+    background-color: rgb(174, 136, 210) !important;
+}
+
+.notes {
+    padding-left: 10em;
+    padding-top: 0.1em;
+}

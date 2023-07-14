@@ -1,0 +1,72 @@
+<form>
+    <h2 class="center">Order Entry Screen UI</h2>
+    <table [formGroup]="toppings">
+        <tr>
+            <th [rowSpan]="2">Toppings</th>
+            <th [colSpan]="5">Pizza Sizes</th>
+        </tr>
+        <tr>
+            <th *ngFor="let itemPizzaSizes of pizzaSizes;let i = index">
+                {{itemPizzaSizes.size}} (${{itemPizzaSizes.pizzaPrice | number}})
+                <ng-container *ngIf="itemPizzaSizes.size == 'Medium'">
+                    <select name="noOfPizza" (change)="onNumberChange($event)">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                    </select>
+                </ng-container>
+            </th>
+        </tr>
+        <tr class="center">
+            <td [colSpan]="5" class="subheading">Veg Toppings</td>
+        </tr>
+        <tr *ngFor="let topping of totalToppings; let i = index;">
+            <ng-container *ngIf="topping.type == 'veg'">
+                <td>{{topping.name}} (${{topping.toppingPrice | number: '1.2-2'}})</td>
+                <ng-container *ngFor="let size of topping.pizzaSizes; let j = index;">
+                    <td><mat-checkbox formControlName={{topping.name}} (change)="itemSelected($event, i, j, false)">
+                        </mat-checkbox></td>
+                </ng-container>
+            </ng-container>
+        </tr>
+        <tr class="center">
+            <td [colSpan]="5" class="subheading">Non-Veg Toppings</td>
+        </tr>
+        <tr *ngFor="let itemNonVegToppings of totalToppings; let i = index;">
+            <ng-container *ngIf="itemNonVegToppings.type == 'nonveg'">
+                <td>{{itemNonVegToppings.name}} (${{itemNonVegToppings.toppingPrice | number: '1.2-2'}})</td>
+                <ng-container *ngFor="let size of itemNonVegToppings.pizzaSizes; let j = index;">
+                    <td><mat-checkbox formControlName={{itemNonVegToppings.name}}
+                            (change)="itemSelected($event, i, j, false)">
+                        </mat-checkbox></td>
+                </ng-container>
+            </ng-container>
+        </tr>
+        <tr class="">
+            <td [colSpan]="5" class="subheading">Total</td>
+        </tr>
+        <tr>
+            <td>Offer</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <ng-container *ngFor=" let price of pricesSizeWise">
+                <td>
+                    <span *ngIf="price.discountedPrice; else noDiscount">{{price.discountedPrice}} <br>
+                        <s>{{price.finalPrice}}</s>
+                    </span>
+                    <ng-template #noDiscount>{{price.finalPrice}}</ng-template>
+                </td>
+            </ng-container>
+            <ng-container *ngIf="!pricesSizeWise.length">
+                <td [colSpan]="4"></td>
+            </ng-container>
+        </tr>
+    </table>
+</form>
+<ng-container *ngFor="let offer of appliedOffers">
+    <p class="notes" *ngIf="offer.isApplied">{{offer.description}}</p>
+</ng-container>
